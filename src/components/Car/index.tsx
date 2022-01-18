@@ -45,8 +45,7 @@ export function Car({ data }: Props){
           </Type>
         </About>
       </Detail>
-
-      {/* <CarImage source={{uri: 'https://media.gazetadopovo.com.br/2020/01/17155825/lamborghini-huracan-Alexander-Migl-wikimedia-commons.jpg'}}/> */}
+      
       <CarImage 
         source={{uri: data?.thumbnail}}
         resizeMode='cover'
