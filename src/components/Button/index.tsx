@@ -1,13 +1,11 @@
 import React from 'react';
 import { TouchableOpacityProps } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components';
 
 import { 
   Container,
   Title
- } from './styles';
- 
+ } from './styles'; 
  interface Props extends TouchableOpacityProps {
    title: string;
    color?: string;
