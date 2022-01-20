@@ -16,10 +16,16 @@ import PeopleSvg from '../../assets/people.svg';
 
 import  * as S from './styles';
 import { Button } from '../../components/Button';
+import { useNavigation } from '@react-navigation/native';
 
 
 export function SchedulingDetails(){ 
   const theme = useTheme()
+  const navigation = useNavigation();
+
+  function handleConfirmSchedulingComplete(){
+    navigation.navigate('SchedulingComplete')
+  }
   return (
     <S.Container>     
       <S.Header>
@@ -84,7 +90,11 @@ export function SchedulingDetails(){
         </S.RentalPrice>
       </S.Content>
       <S.Footer>
-        <Button title='Alugar agora' color={theme.colors.success}/>
+        <Button 
+          title='Alugar agora' 
+          color={theme.colors.success}
+          onPress={handleConfirmSchedulingComplete}
+        />
       </S.Footer>
     </S.Container>
   );
