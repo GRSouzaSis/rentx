@@ -16,13 +16,22 @@ import {
   CarList
  } from './styles';
 
+ interface NavigationProps{
+   navigate:(
+     screen: string,
+     carObject:{
+       car: CarDTO
+     }
+   )=> void;
+ }
+
 export function Home(){
   const [cars, setCars] = useState<CarDTO[]>([])
   const [loading, setLoading] = useState(false)
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
 
-  function handleCarDetails(){
-    navigation.navigate('CarDetails')
+  function handleCarDetails(car: CarDTO){
+    navigation.navigate('CarDetails', { car })
   }
   useEffect(() => {
     async function fetchCars() {
@@ -63,7 +72,7 @@ export function Home(){
         renderItem={({item}) => 
           <Car 
             data={item} 
-            onPress={handleCarDetails}
+            onPress={()=>handleCarDetails(item)}
           />}
       />
     </Container>

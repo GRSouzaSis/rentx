@@ -27,50 +27,58 @@ import {
   Footer
  } from './styles';
 import { Button } from '../../components/Button';
-import { useNavigation } from '@react-navigation/native';
-
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { CarDTO } from '../../dtos/CarDTO';
+interface Params {
+  car: CarDTO;
+}
 export function CarDetails(){ 
   const navigation = useNavigation();
-
+  const route = useRoute();
+  const { car } = route.params as Params;
   function handleConfirmRental(){
     navigation.navigate('Scheduling')
+  }
+  function handleBack(){
+    navigation.goBack()
   }
   return (
     <Container>     
       <Header>
-        <BackButton />
+        <BackButton onPress={handleBack}/>
       </Header>
       <CarImages>
         <ImageSlider 
-          imageUri={['https://media.gazetadopovo.com.br/2020/01/17155825/lamborghini-huracan-Alexander-Migl-wikimedia-commons.jpg']}
+          imageUri={car.photos}
         />
       </CarImages>
 
       <Content>
         <Details>
           <Description>
-            <Brand>Audi</Brand>
-            <Name>R8</Name>
+            <Brand>{car.brand}</Brand>
+            <Name>{car.name}</Name>
           </Description>
           <Rent>
-            <Period>Ao dia</Period>
-            <Price>R$ 560</Price>
+            <Period>{car.rent.period}</Period>
+            <Price>R$ {car.rent.price.toFixed(2)}</Price>
           </Rent>
         </Details>
         <Accessories>
-          <Accessory icon={SpeedSvg} name='256km/h'/>
-          <Accessory icon={ForceSvg} name='sf'/>
-          <Accessory icon={AccelerationSvg} name='1.5s'/>
-          <Accessory icon={GasolineSvg} name='sf'/>
-          <Accessory icon={ExchangeSvg} name='sf'/>
-          <Accessory icon={PeopleSvg} name='2'/>
+          {
+            car.accessories.map(accessory => (
+              <Accessory
+                key={accessory.type} 
+                name={accessory.name}
+                icon={SpeedSvg} 
+              />
+            ))
+          }
+         
         </Accessories>
-
         
-        <About>
-        conjunto das palavras escritas, em livro, folheto, documento etc. (p.opos. a comentários, aditamentos, sumário etc.); redação original de qualquer obra escrita.
-"um t. manuscrito"
-        </About>
+        <About>{car.about}</About>
+
       </Content>
       <Footer>
         <Button 
