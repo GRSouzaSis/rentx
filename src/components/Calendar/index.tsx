@@ -21,7 +21,7 @@ interface MarkedDateProps {
   },
 }
 interface DayProps {
-  dateSting: string;
+  dateString: string;
   day: number;
   month: number;
   year: number;

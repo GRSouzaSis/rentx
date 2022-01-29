@@ -6,22 +6,21 @@ import theme from '../../styles/theme'
 export function generateInterval(start: DayProps, end: DayProps){
   let interval: MarkedDateProps = {}
 
-eachDayOfInterval(
-  {start: parseISO(start.dateSting), 
-  end: parseISO(end.dateSting)
-}).forEach((item)=> {
-  const date = format((item), 'yyyy-MM-dd');
+  eachDayOfInterval({ start: new Date(start.timestamp), end: new Date(end.timestamp)})
+  .forEach((item)=> {
+      const date = format(getPlatformDate(item), 'yyyy-MM-dd');
 
-  interval = {
-    ...interval,
-    [date]: {
-      color: start.dateSting === date || end.dateSting === date
-      ? theme.colors.success : theme.colors.success,
+      interval = {
+          ...interval,
+          [date]: {
+              color: start.dateString === date || end.dateString === date 
+              ? theme.colors.main : theme.colors.main_light,
 
-      textColor: start.dateSting === date || end.dateSting === date
-      ? theme.colors.shape : theme.colors.header,
-    }
-  }
- })
- return interval
+              textColor: start.dateString === date || end.dateString === date
+              ? theme.colors.main_light : theme.colors.main,
+          }
+      }
+  })
+
+  return interval;
 }

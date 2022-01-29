@@ -7,6 +7,8 @@ import * as S from './styles';
 import { Button } from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
 
+
+
 export function SchedulingComplete(){ 
   const { width } = useWindowDimensions()
   const theme = useTheme()
