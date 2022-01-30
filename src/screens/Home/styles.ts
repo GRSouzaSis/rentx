@@ -34,3 +34,15 @@ export const CarList = styled(FlatList as new (props: FlatListProps<CarDTO>) => 
   },
   showsVerticalScrollIndicator: false,
 })``;
+
+export const MyCarsButton = styled.TouchableOpacity`
+  height: 64px;
+  width: 64px;
+  border-radius: 32px;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({theme})=> theme.colors.main};  
+  position: absolute;
+  bottom: 13px;
+  right: 22px;
+`;

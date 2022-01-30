@@ -7,14 +7,17 @@ import Logo from '../../assets/logo.svg';
 import { Car } from '../../components/Car';
 import { CarDTO } from '../../dtos/CarDTO';
 import { Load } from '../../components/Load';
+import { Ionicons } from '@expo/vector-icons'
 
 import { 
   Container,
   Header,
   TotalCars,
   HeaderContent,
-  CarList
+  CarList,
+  MyCarsButton
  } from './styles';
+import { useTheme } from 'styled-components';
 
  interface NavigationProps{
    navigate:(
@@ -29,9 +32,14 @@ export function Home(){
   const [cars, setCars] = useState<CarDTO[]>([])
   const [loading, setLoading] = useState(false)
   const navigation = useNavigation<NavigationProps>();
+  const theme = useTheme()
 
   function handleCarDetails(car: CarDTO){
     navigation.navigate('CarDetails', { car })
+  }
+
+  function handleOpenMyCars(){
+    navigation.navigate('MyCars');
   }
   useEffect(() => {
     async function fetchCars() {
@@ -75,6 +83,13 @@ export function Home(){
             onPress={()=>handleCarDetails(item)}
           />}
       />
+      <MyCarsButton onPress={handleOpenMyCars}>
+        <Ionicons 
+          name='ios-car-sport'
+          size={RFValue(32)}
+          color={theme.colors.shape}
+        />
+      </MyCarsButton>
     </Container>
   );
 }
