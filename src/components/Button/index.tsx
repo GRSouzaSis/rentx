@@ -1,6 +1,7 @@
 import React from 'react';
-import { TouchableOpacityProps } from 'react-native';
+import { ActivityIndicator, TouchableOpacityProps } from 'react-native';
 import { useTheme } from 'styled-components';
+import { Load } from '../Load';
 
 import { 
   Container,
@@ -10,18 +11,30 @@ import {
    title: string;
    color?: string;
    textColor?: string;
+   disable_button?: boolean;
+   onLoading?: boolean;
   //  onPress: () => void;
  }
 
-export function Button({ title, color, textColor, ...rest }: Props){
+export function Button({ 
+  title, 
+  color, 
+  textColor, 
+  disable_button = true,
+  onLoading, 
+  ...rest 
+}: Props){
   const theme = useTheme()
   return (
-    <Container {...rest} color={color}>
-      <Title 
-        textColor={textColor}
-      >
-        {title}
-      </Title>
+    <Container 
+      {...rest} 
+      color={color}   
+      enabled={disable_button}  
+    >
+      {onLoading 
+        ? <ActivityIndicator color={theme.colors.header}/> 
+        : <Title textColor={textColor}>{title}</Title>
+      }
     </Container>
   );
 }

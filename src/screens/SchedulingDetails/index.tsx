@@ -29,6 +29,7 @@ interface RentalPeriod {
 
 export function SchedulingDetails(){ 
   const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>({} as RentalPeriod)
+  const [loading, setLoading] = useState(false);
   const theme = useTheme()
   const route = useRoute();
   const { car, dates } = route.params as Params;
@@ -37,25 +38,31 @@ export function SchedulingDetails(){
   const rentTotal = Number(dates.length * car.rent.price);
 
   async function handleConfirmSchedulingComplete(){
-    const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
-    const unavailable_dates = [
-      ...schedulesByCar.data.unavailable_dates,
-      ...dates,
-    ];
-    
-    await api.post('schedules_byuser', {
-      user_id: 1,
-      car,
-      startDate: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
-      endDate: format(getPlatformDate(new Date(dates[dates.length -1 ])), 'dd/MM/yyyy'),
-    })
-
-    await api.put(`/schedules_bycars/${car.id}`, {
-      id: car.id,
-      unavailable_dates
-    })
-    .then(() => navigation.navigate('SchedulingComplete'))
-    .catch(()=> Alert.alert('Não foi possível salvar o agendamento.'))
+    setLoading(true);
+      try { 
+        const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
+        const unavailable_dates = [
+          ...schedulesByCar.data.unavailable_dates,
+          ...dates,
+        ];
+        
+        await api.post('schedules_byuser', {
+          user_id: 1,
+          car,
+          startDate: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
+          endDate: format(getPlatformDate(new Date(dates[dates.length -1 ])), 'dd/MM/yyyy'),
+        })
+  
+        await api.put(`/schedules_bycars/${car.id}`, {
+          id: car.id,
+          unavailable_dates
+        })
+        .then(() => navigation.navigate('SchedulingComplete'))
+        .catch(()=> Alert.alert('Não foi possível salvar o agendamento.'))
+      } catch (error) {
+        console.log(error)
+      }
+    setLoading(false);
   }
 
   function handleBack(){
@@ -140,6 +147,9 @@ export function SchedulingDetails(){
           title='Alugar agora' 
           color={theme.colors.success}
           onPress={handleConfirmSchedulingComplete}
+          onLoading={loading}
+          disabled={loading}
+          disable_button={!loading}
         />
       </S.Footer>
     </S.Container>

@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 interface ButtonProps {
   color?: string;
   textColor?: string;
+  enabled?: boolean;
 }
 
 export const Container = styled.TouchableOpacity<ButtonProps>`
@@ -12,6 +13,7 @@ export const Container = styled.TouchableOpacity<ButtonProps>`
   align-items: center;
   justify-content: center;
   background-color: ${({color, theme}) => color ? color : theme.colors.main};
+  opacity: ${({enabled, theme}) => enabled ? 1 : .5};
 `;
 export const Title = styled.Text<ButtonProps>`
   font-family: ${({theme})=> theme.fonts.primary_500};
