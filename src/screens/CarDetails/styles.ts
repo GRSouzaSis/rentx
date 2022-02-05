@@ -74,6 +74,7 @@ export const About = styled.Text`
   text-align: justify;
   margin: -2px;
   margin-top: 23px;
+  
   line-height: ${RFValue(25)}px;
 `;
 
